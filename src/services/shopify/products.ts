@@ -1,6 +1,5 @@
 import { env } from "app/config/env"
 import { shopifyUrls } from "./urls"
-import { promises } from "dns"
 
 export const getProducts = async (id?: string): Promise<ProductType[]> => {
   try {
@@ -9,7 +8,10 @@ export const getProducts = async (id?: string): Promise<ProductType[]> => {
       headers: new Headers({
         'X-Shopify-Access-Token' : env.SHOPIFY_TOKEN
       }),
-      cache: 'no-cache',
+      cache: 'force-cache',
+      next: {
+        tags: ['main-products']
+      }
     })
     const { products } = await response.json()
     
