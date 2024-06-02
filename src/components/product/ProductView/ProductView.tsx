@@ -1,9 +1,12 @@
 // "use client" la siguiente línea es necesaria para que el componente funcione en el cliente
 
-import Image from "next/image";
 import { ProductViewItemsOrder } from "./ProductViewItemsOrder";
+import { SanitizeHTML } from "app/components/shared/SanitizeHTML";
+import Image from "next/image";
 import styles from './ProductView.module.sass'
+
 // import { useRouter } from "next/navigation"; ejemplo de uso de next/navigation
+
 interface ProductViewProps {
   product: ProductType
 }
@@ -31,9 +34,14 @@ export const ProductView = ({ product }: ProductViewProps) => {
       <section className={styles.ProductView__info}>
         <h1 className={styles.ProductView__info__title}>{product.title}</h1>
         <p className={styles.ProductView__info__category}>{product.tags}</p>
-        <p className={styles.ProductView__info__description}>
+
+        <SanitizeHTML tag="p">
           {product.description}
-        </p>
+        </SanitizeHTML>
+
+        {/* <p className={styles.ProductView__info__description} dangerouslySetInnerHTML={{__html: product.description}} /> 
+        // dangerouslySetInnerHTML se usa para insertar html en un componente, no es recomendable usarlo. */}
+
         <span className={styles.ProductView__info__price}>
           $ {product.price}
         </span>
